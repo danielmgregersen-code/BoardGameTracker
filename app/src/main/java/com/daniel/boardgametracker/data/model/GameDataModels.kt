@@ -24,7 +24,9 @@ data class VoidfallData(
     val houseScore: Int = 0,
     val voidbornScore: Int = 0,
     val deltaScore: Int = 0,
-    val voidbornBreakdown: VoidbornBreakdown? = null
+    val voidbornBreakdown: VoidbornBreakdown? = null,
+    val feelOfGame: String = "",
+    val notes: String = ""
 )
 
 @Serializable
@@ -47,6 +49,7 @@ data class SpiritIslandData(
     val computedDifficulty: Int = 0,
     val score: Int = 0,
     val won: Boolean = false,
+    val feelOfGame: String = "",
     val notes: String = ""
 )
 

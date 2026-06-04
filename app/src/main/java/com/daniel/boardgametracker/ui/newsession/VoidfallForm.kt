@@ -89,6 +89,26 @@ fun VoidfallForm(vm: NewSessionViewModel) {
 
     Spacer(Modifier.height(8.dp))
 
+    SectionLabel("Notes")
+
+    OutlinedTextField(
+        value = vm.vfFeelOfGame,
+        onValueChange = { vm.vfFeelOfGame = it },
+        label = { Text("Feel of Game") },
+        placeholder = { Text("Tense, one-sided, exciting…") },
+        modifier = Modifier.fillMaxWidth(),
+        maxLines = 2
+    )
+    Spacer(Modifier.height(8.dp))
+    OutlinedTextField(
+        value = vm.vfNotes,
+        onValueChange = { vm.vfNotes = it },
+        label = { Text("Notes") },
+        modifier = Modifier.fillMaxWidth(),
+        maxLines = 4
+    )
+    Spacer(Modifier.height(8.dp))
+
     val delta = vm.vfDeltaScore
     val deltaColor = when {
         delta > 0 -> MaterialTheme.colorScheme.primary

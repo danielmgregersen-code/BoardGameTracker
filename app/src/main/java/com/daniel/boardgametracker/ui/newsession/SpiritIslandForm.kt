@@ -120,6 +120,15 @@ fun SpiritIslandForm(vm: NewSessionViewModel) {
     SectionLabel("Notes")
 
     OutlinedTextField(
+        value = vm.siFeelOfGame,
+        onValueChange = { vm.siFeelOfGame = it },
+        label = { Text("Feel of Game") },
+        placeholder = { Text("Tense, one-sided, exciting…") },
+        modifier = Modifier.fillMaxWidth(),
+        maxLines = 2
+    )
+    Spacer(Modifier.height(8.dp))
+    OutlinedTextField(
         value = vm.siNotes,
         onValueChange = { vm.siNotes = it },
         label = { Text("Notes") },

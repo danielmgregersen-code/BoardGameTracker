@@ -144,6 +144,12 @@ private fun VoidfallDetail(json: String) {
     }
 
     DetailRow("Delta (Δ)", "${if (data.deltaScore > 0) "+" else ""}${data.deltaScore}")
+    if (data.feelOfGame.isNotBlank()) DetailRow("Feel of Game", data.feelOfGame)
+    if (data.notes.isNotBlank()) {
+        Spacer(Modifier.height(4.dp))
+        Text("Notes", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
+        Text(data.notes, style = MaterialTheme.typography.bodyMedium)
+    }
 }
 
 @Composable
@@ -174,6 +180,7 @@ private fun SpiritIslandDetail(json: String) {
     DetailRow("Scenario", data.scenario)
     DetailRow("Difficulty", "${data.computedDifficulty}")
     DetailRow("Score", "${data.score}")
+    if (data.feelOfGame.isNotBlank()) DetailRow("Feel of Game", data.feelOfGame)
     if (data.notes.isNotBlank()) {
         Spacer(Modifier.height(4.dp))
         Text("Notes", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)

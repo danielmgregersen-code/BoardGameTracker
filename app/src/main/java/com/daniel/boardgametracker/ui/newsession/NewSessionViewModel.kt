@@ -52,6 +52,9 @@ class NewSessionViewModel(
         vfConsumedTech, vfOngoingCrisis, vfFallenHouse, vfCorruption, vfPopulation
     )
 
+    var vfFeelOfGame by mutableStateOf("")
+    var vfNotes by mutableStateOf("")
+
     // --- Final Girl ---
     var fgKiller by mutableStateOf("")
     var fgLocation by mutableStateOf("")
@@ -69,6 +72,7 @@ class NewSessionViewModel(
     val siDifficulty: Int get() = SpiritIslandConstants.computeDifficulty(siAdversary, siAdversaryLevel, siScenario)
     var siScore by mutableIntStateOf(0)
     var siWon by mutableStateOf(false)
+    var siFeelOfGame by mutableStateOf("")
     var siNotes by mutableStateOf("")
 
     var isSaving by mutableStateOf(false)
@@ -140,6 +144,7 @@ class NewSessionViewModel(
                     vfUseBreakdown = false
                     vfVoidbornScoreManual = it.voidbornScore
                 }
+                vfFeelOfGame = it.feelOfGame; vfNotes = it.notes
             }
             GameType.FINAL_GIRL -> runCatching { Json.decodeFromString<FinalGirlData>(session.gameDataJson) }.onSuccess {
                 fgKiller = it.killer; fgLocation = it.location; fgFinalGirl = it.finalGirl
@@ -148,7 +153,8 @@ class NewSessionViewModel(
             }
             GameType.SPIRIT_ISLAND -> runCatching { Json.decodeFromString<SpiritIslandData>(session.gameDataJson) }.onSuccess {
                 siSpirits = it.spirits; siAdversary = it.adversary; siAdversaryLevel = it.adversaryLevel
-                siScenario = it.scenario; siScore = it.score; siWon = it.won; siNotes = it.notes
+                siScenario = it.scenario; siScore = it.score; siWon = it.won
+                siFeelOfGame = it.feelOfGame; siNotes = it.notes
             }
         }
     }
@@ -177,7 +183,7 @@ class NewSessionViewModel(
     private suspend fun buildSessionData(): Pair<String, Boolean> = when (gameType) {
         GameType.VOIDFALL -> {
             val breakdown = if (vfUseBreakdown) currentBreakdown() else null
-            val data = VoidfallData(vfDifficulty, vfHouse, vfHouseSide, vfMap, vfHouseScore, vfVoidbornScore, vfDeltaScore, breakdown)
+            val data = VoidfallData(vfDifficulty, vfHouse, vfHouseSide, vfMap, vfHouseScore, vfVoidbornScore, vfDeltaScore, breakdown, vfFeelOfGame, vfNotes)
             prefs.saveLastVoidfall(Json.encodeToString(data))
             Json.encodeToString(data) to (vfDeltaScore > 0)
         }
@@ -187,7 +193,7 @@ class NewSessionViewModel(
             Json.encodeToString(data) to fgSurvived
         }
         GameType.SPIRIT_ISLAND -> {
-            val data = SpiritIslandData(siSpirits, siAdversary, siAdversaryLevel, siScenario, siDifficulty, siScore, siWon, siNotes)
+            val data = SpiritIslandData(siSpirits, siAdversary, siAdversaryLevel, siScenario, siDifficulty, siScore, siWon, siFeelOfGame, siNotes)
             prefs.saveLastSpiritIsland(Json.encodeToString(data))
             Json.encodeToString(data) to siWon
         }
