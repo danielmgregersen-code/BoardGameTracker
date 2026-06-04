@@ -35,7 +35,7 @@ fun HistoryScreen(
     val vm: HistoryViewModel = viewModel(initializer = { HistoryViewModel(repository) })
     val sessions by vm.filteredSessions.collectAsState()
 
-    Scaffold(topBar = { TopAppBar(title = { Text("History") }) }) { padding ->
+    Scaffold(containerColor = androidx.compose.ui.graphics.Color.Transparent, topBar = { TopAppBar(title = { Text("History") }) }) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(padding)) {
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),

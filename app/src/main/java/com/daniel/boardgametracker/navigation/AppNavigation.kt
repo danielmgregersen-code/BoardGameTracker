@@ -56,6 +56,7 @@ fun AppNavigation(
     val showBottomBar = currentRoute in listOf(Screen.Home.route, Screen.History.route, Screen.Stats.route)
 
     Scaffold(
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {

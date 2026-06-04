@@ -37,7 +37,7 @@ fun HomeScreen(
     val viewModel: HomeViewModel = viewModel(initializer = { HomeViewModel(repository) })
     val sessions by viewModel.sessions.collectAsState()
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Solo Tracker") }) }) { padding ->
+    Scaffold(containerColor = androidx.compose.ui.graphics.Color.Transparent, topBar = { TopAppBar(title = { Text("Solo Tracker") }) }) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(16.dp),

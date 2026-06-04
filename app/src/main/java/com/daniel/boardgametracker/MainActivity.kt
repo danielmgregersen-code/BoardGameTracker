@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.daniel.boardgametracker.navigation.AppNavigation
+import com.daniel.boardgametracker.ui.components.BoardGameBackground
 import com.daniel.boardgametracker.ui.theme.BoardGameTrackerTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         val app = application as BoardGameTrackerApp
         setContent {
             BoardGameTrackerTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
+                BoardGameBackground(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
                     AppNavigation(
                         navController = navController,

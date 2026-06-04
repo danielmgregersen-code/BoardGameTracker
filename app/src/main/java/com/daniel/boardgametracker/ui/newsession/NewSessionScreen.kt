@@ -69,6 +69,7 @@ fun NewSessionScreen(
         "New ${GameType.displayName(gameType)} Session"
 
     Scaffold(
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
                 title = { Text(title) },

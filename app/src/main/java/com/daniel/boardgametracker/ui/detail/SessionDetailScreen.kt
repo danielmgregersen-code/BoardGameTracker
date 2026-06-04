@@ -60,6 +60,7 @@ fun SessionDetailScreen(
 
     val s = session
     Scaffold(
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
                 title = { Text(if (s != null) GameType.displayName(s.gameType) else "Session") },

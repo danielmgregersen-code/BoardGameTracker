@@ -21,7 +21,7 @@ fun StatsScreen(repository: SessionRepository) {
     val vm: StatsViewModel = viewModel(initializer = { StatsViewModel(repository) })
     val stats by vm.stats.collectAsState()
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Stats") }) }) { padding ->
+    Scaffold(containerColor = androidx.compose.ui.graphics.Color.Transparent, topBar = { TopAppBar(title = { Text("Stats") }) }) { padding ->
         if (stats.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
