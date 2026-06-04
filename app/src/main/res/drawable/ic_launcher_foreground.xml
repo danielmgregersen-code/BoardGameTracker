@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Isometric die — three visible faces meeting at centre point (54,56).
+  Vertices:  top=(54,18)  tl=(20,37)  tr=(88,37)
+             bl=(20,71)   br=(88,71)  bot=(54,90)
+  Top face  : (54,18)→(20,37)→(54,56)→(88,37)
+  Left face : (20,37)→(20,71)→(54,90)→(54,56)
+  Right face: (88,37)→(54,56)→(54,90)→(88,71)
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Top face — brightest (light source from top-left) -->
+    <!-- Top face — brightest (lit from above) -->
     <path
         android:fillColor="#FFD740"
         android:pathData="M54,18 L20,37 L54,56 L88,37 Z"/>
@@ -15,41 +23,55 @@
         android:fillColor="#FFB300"
         android:pathData="M20,37 L20,71 L54,90 L54,56 Z"/>
 
-    <!-- Right face — darkest (shadow side) -->
+    <!-- Right face — darkest (shadow) -->
     <path
         android:fillColor="#FF8F00"
         android:pathData="M88,37 L54,56 L54,90 L88,71 Z"/>
 
-    <!-- Outer silhouette outline -->
+    <!-- Outer silhouette -->
     <path
         android:strokeColor="#12121A"
         android:strokeWidth="2"
         android:fillColor="#00000000"
         android:pathData="M54,18 L20,37 L20,71 L54,90 L88,71 L88,37 Z"/>
 
-    <!-- Inner edge lines separating the three faces -->
+    <!--
+      Inner Y-junction: three edges radiating from centre (54,56).
+      Left arm  → (20,37): top/left boundary
+      Right arm → (88,37): top/right boundary
+      Down arm  → (54,90): left/right boundary
+      NOTE: no line from (54,18) — that would cut through the top face.
+    -->
     <path
         android:strokeColor="#12121A"
         android:strokeWidth="1.5"
         android:fillColor="#00000000"
-        android:pathData="M54,18 L54,56 M20,37 L54,56 L88,37 M54,56 L54,90"/>
+        android:pathData="M20,37 L54,56 L88,37 M54,56 L54,90"/>
 
-    <!-- Top face: 1 dot at center -->
+    <!-- Top face: 1 dot at rhombus centre (54,37) -->
     <path android:fillColor="#12121A"
         android:pathData="M50,37 a4,4,0,1,0,8,0 a4,4,0,1,0,-8,0"/>
 
-    <!-- Left face: 3 dots along the diagonal -->
+    <!--
+      Left face: 3 dots along the face diagonal (20,37)→(54,90).
+      Direction per unit: (+34,+53). At 25/50/75% of diagonal length.
+      25% → (28.5, 50.25)   50% → (37, 63.5)   75% → (45.5, 76.75)
+    -->
     <path android:fillColor="#12121A"
-        android:pathData="M23.5,47 a3.5,3.5,0,1,0,7,0 a3.5,3.5,0,1,0,-7,0"/>
+        android:pathData="M24.5,50 a4,4,0,1,0,8,0 a4,4,0,1,0,-8,0"/>
     <path android:fillColor="#12121A"
-        android:pathData="M33.5,63 a3.5,3.5,0,1,0,7,0 a3.5,3.5,0,1,0,-7,0"/>
+        android:pathData="M33,63.5 a4,4,0,1,0,8,0 a4,4,0,1,0,-8,0"/>
     <path android:fillColor="#12121A"
-        android:pathData="M43.5,79 a3.5,3.5,0,1,0,7,0 a3.5,3.5,0,1,0,-7,0"/>
+        android:pathData="M41.5,77 a4,4,0,1,0,8,0 a4,4,0,1,0,-8,0"/>
 
-    <!-- Right face: 2 dots along the diagonal -->
+    <!--
+      Right face: 2 dots along face diagonal (88,37)→(54,90).
+      Direction per unit: (-34,+53). At 25% and 75%.
+      25% → (79.5, 50.25)   75% → (62.5, 76.75)
+    -->
     <path android:fillColor="#12121A"
-        android:pathData="M74.5,47 a3.5,3.5,0,1,0,7,0 a3.5,3.5,0,1,0,-7,0"/>
+        android:pathData="M75.5,50 a4,4,0,1,0,8,0 a4,4,0,1,0,-8,0"/>
     <path android:fillColor="#12121A"
-        android:pathData="M60.5,79 a3.5,3.5,0,1,0,7,0 a3.5,3.5,0,1,0,-7,0"/>
+        android:pathData="M58.5,77 a4,4,0,1,0,8,0 a4,4,0,1,0,-8,0"/>
 
 </vector>
