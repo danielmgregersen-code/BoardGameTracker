@@ -29,8 +29,28 @@ class NewSessionViewModel(
     var vfHouseSide by mutableStateOf("A")
     var vfMap by mutableStateOf("")
     var vfHouseScore by mutableIntStateOf(0)
-    var vfVoidbornScore by mutableIntStateOf(0)
+    // Voidborn score — simple mode
+    var vfUseBreakdown by mutableStateOf(false)
+    var vfVoidbornScoreManual by mutableIntStateOf(0)
+    // Voidborn score — breakdown mode
+    var vfRifts by mutableIntStateOf(0)
+    var vfSafeHavens by mutableIntStateOf(0)
+    var vfCatastrophe by mutableIntStateOf(0)
+    var vfHarbinger by mutableIntStateOf(0)
+    var vfConsumedTech by mutableIntStateOf(0)
+    var vfOngoingCrisis by mutableIntStateOf(0)
+    var vfFallenHouse by mutableIntStateOf(0)
+    var vfCorruption by mutableIntStateOf(0)
+    var vfPopulation by mutableIntStateOf(0)
+
+    val vfVoidbornScore: Int
+        get() = if (vfUseBreakdown) VoidfallConstants.computeVoidbornScore(vfDifficulty, currentBreakdown()) else vfVoidbornScoreManual
     val vfDeltaScore: Int get() = vfHouseScore - vfVoidbornScore
+
+    private fun currentBreakdown() = VoidbornBreakdown(
+        vfRifts, vfSafeHavens, vfCatastrophe, vfHarbinger,
+        vfConsumedTech, vfOngoingCrisis, vfFallenHouse, vfCorruption, vfPopulation
+    )
 
     // --- Final Girl ---
     var fgKiller by mutableStateOf("")
@@ -74,6 +94,8 @@ class NewSessionViewModel(
                         vfHouse = it.house
                         vfHouseSide = it.houseSide
                         vfMap = it.map
+                        // Restore breakdown mode toggle (but not the counts — those change each game)
+                        vfUseBreakdown = it.voidbornBreakdown != null
                     }
                 }
             }
@@ -105,7 +127,19 @@ class NewSessionViewModel(
         when (gameType) {
             GameType.VOIDFALL -> runCatching { Json.decodeFromString<VoidfallData>(session.gameDataJson) }.onSuccess {
                 vfDifficulty = it.difficulty; vfHouse = it.house; vfHouseSide = it.houseSide
-                vfMap = it.map; vfHouseScore = it.houseScore; vfVoidbornScore = it.voidbornScore
+                vfMap = it.map; vfHouseScore = it.houseScore
+                val b = it.voidbornBreakdown
+                if (b != null) {
+                    vfUseBreakdown = true
+                    vfRifts = b.rifts; vfSafeHavens = b.incompleteSafeHavens
+                    vfCatastrophe = b.catastropheTokens; vfHarbinger = b.harbingerTokens
+                    vfConsumedTech = b.consumedTechnologies; vfOngoingCrisis = b.ongoingCrisisCards
+                    vfFallenHouse = b.fallenHouseCards; vfCorruption = b.corruptionMarkers
+                    vfPopulation = b.voidbornPopulation
+                } else {
+                    vfUseBreakdown = false
+                    vfVoidbornScoreManual = it.voidbornScore
+                }
             }
             GameType.FINAL_GIRL -> runCatching { Json.decodeFromString<FinalGirlData>(session.gameDataJson) }.onSuccess {
                 fgKiller = it.killer; fgLocation = it.location; fgFinalGirl = it.finalGirl
@@ -142,7 +176,8 @@ class NewSessionViewModel(
 
     private suspend fun buildSessionData(): Pair<String, Boolean> = when (gameType) {
         GameType.VOIDFALL -> {
-            val data = VoidfallData(vfDifficulty, vfHouse, vfHouseSide, vfMap, vfHouseScore, vfVoidbornScore, vfDeltaScore)
+            val breakdown = if (vfUseBreakdown) currentBreakdown() else null
+            val data = VoidfallData(vfDifficulty, vfHouse, vfHouseSide, vfMap, vfHouseScore, vfVoidbornScore, vfDeltaScore, breakdown)
             prefs.saveLastVoidfall(Json.encodeToString(data))
             Json.encodeToString(data) to (vfDeltaScore > 0)
         }

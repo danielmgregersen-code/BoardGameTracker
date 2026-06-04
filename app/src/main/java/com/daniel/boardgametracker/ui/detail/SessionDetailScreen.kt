@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.daniel.boardgametracker.data.db.Session
+import com.daniel.boardgametracker.data.constants.VoidfallConstants
 import com.daniel.boardgametracker.data.model.*
 import com.daniel.boardgametracker.data.repository.SessionRepository
 import com.daniel.boardgametracker.navigation.Screen
@@ -124,6 +125,24 @@ private fun VoidfallDetail(json: String) {
     DetailRow("Scenario", data.map)
     DetailRow("House Score", "${data.houseScore}")
     DetailRow("Voidborn Score", "${data.voidbornScore}")
+
+    val b = data.voidbornBreakdown
+    if (b != null) {
+        val base = VoidfallConstants.DIFFICULTY_BASE_SCORES[data.difficulty] ?: 100
+        Spacer(Modifier.height(4.dp))
+        Text("Voidborn Breakdown", color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodySmall)
+        DetailRow("  Base (${data.difficulty})", "$base")
+        if (b.rifts > 0)                 DetailRow("  Rifts (${b.rifts})",                        "${b.rifts * 30}")
+        if (b.incompleteSafeHavens > 0)  DetailRow("  Incomplete Safe Havens (${b.incompleteSafeHavens})", "${b.incompleteSafeHavens * 20}")
+        if (b.catastropheTokens > 0)     DetailRow("  Catastrophe tokens (${b.catastropheTokens})", "${b.catastropheTokens * 20}")
+        if (b.harbingerTokens > 0)       DetailRow("  Harbinger tokens (${b.harbingerTokens})",   "${b.harbingerTokens * 10}")
+        if (b.consumedTechnologies > 0)  DetailRow("  Consumed Technologies (${b.consumedTechnologies})", "${b.consumedTechnologies * 5}")
+        if (b.ongoingCrisisCards > 0)    DetailRow("  Ongoing Crisis cards (${b.ongoingCrisisCards})", "${b.ongoingCrisisCards * 5}")
+        if (b.fallenHouseCards > 0)      DetailRow("  Fallen House cards (${b.fallenHouseCards})", "${b.fallenHouseCards * 3}")
+        if (b.corruptionMarkers > 0)     DetailRow("  Corruption markers (${b.corruptionMarkers})", "${b.corruptionMarkers * 2}")
+        if (b.voidbornPopulation > 0)    DetailRow("  Voidborn Population (${b.voidbornPopulation})", "${b.voidbornPopulation}")
+    }
+
     DetailRow("Delta (Δ)", "${if (data.deltaScore > 0) "+" else ""}${data.deltaScore}")
 }
 

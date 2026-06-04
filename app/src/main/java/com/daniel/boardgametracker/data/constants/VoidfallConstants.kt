@@ -1,5 +1,7 @@
 package com.daniel.boardgametracker.data.constants
 
+import com.daniel.boardgametracker.data.model.VoidbornBreakdown
+
 object VoidfallConstants {
     val DIFFICULTIES = listOf("Easy", "Normal", "Hard")
 
@@ -28,4 +30,18 @@ object VoidfallConstants {
     )
 
     val MAP_NAMES: List<String> = MAPS.map { it.displayName }
+
+    val DIFFICULTY_BASE_SCORES = mapOf("Easy" to 60, "Normal" to 100, "Hard" to 140)
+
+    fun computeVoidbornScore(difficulty: String, b: VoidbornBreakdown): Int =
+        (DIFFICULTY_BASE_SCORES[difficulty] ?: 100) +
+        b.rifts * 30 +
+        b.incompleteSafeHavens * 20 +
+        b.catastropheTokens * 20 +
+        b.harbingerTokens * 10 +
+        b.consumedTechnologies * 5 +
+        b.ongoingCrisisCards * 5 +
+        b.fallenHouseCards * 3 +
+        b.corruptionMarkers * 2 +
+        b.voidbornPopulation
 }

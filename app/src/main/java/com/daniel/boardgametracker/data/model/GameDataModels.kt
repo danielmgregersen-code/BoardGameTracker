@@ -3,6 +3,19 @@ package com.daniel.boardgametracker.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class VoidbornBreakdown(
+    val rifts: Int = 0,
+    val incompleteSafeHavens: Int = 0,
+    val catastropheTokens: Int = 0,
+    val harbingerTokens: Int = 0,
+    val consumedTechnologies: Int = 0,
+    val ongoingCrisisCards: Int = 0,
+    val fallenHouseCards: Int = 0,
+    val corruptionMarkers: Int = 0,
+    val voidbornPopulation: Int = 0
+)
+
+@Serializable
 data class VoidfallData(
     val difficulty: String = "Normal",
     val house: String = "",
@@ -10,7 +23,8 @@ data class VoidfallData(
     val map: String = "",
     val houseScore: Int = 0,
     val voidbornScore: Int = 0,
-    val deltaScore: Int = 0
+    val deltaScore: Int = 0,
+    val voidbornBreakdown: VoidbornBreakdown? = null
 )
 
 @Serializable
