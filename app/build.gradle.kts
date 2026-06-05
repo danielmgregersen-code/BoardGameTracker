@@ -10,7 +10,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.daniel.boardgametracker"
+        applicationId = "com.danielag_bgt.app"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
