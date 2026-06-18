@@ -3,6 +3,7 @@ package com.daniel.boardgametracker.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
@@ -14,8 +15,11 @@ import androidx.navigation.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.daniel.boardgametracker.data.prefs.LastSessionPrefs
+import com.daniel.boardgametracker.data.prefs.OathswornPrefs
 import com.daniel.boardgametracker.data.repository.SessionRepository
 import com.daniel.boardgametracker.ui.detail.SessionDetailScreen
+import com.daniel.boardgametracker.ui.helper.HelperScreen
+import com.daniel.boardgametracker.ui.helper.OathswornHelperScreen
 import com.daniel.boardgametracker.ui.history.HistoryScreen
 import com.daniel.boardgametracker.ui.home.HomeScreen
 import com.daniel.boardgametracker.ui.newsession.NewSessionScreen
@@ -25,6 +29,8 @@ sealed class Screen(val route: String) {
     object Home : Screen("home")
     object History : Screen("history")
     object Stats : Screen("stats")
+    object Helper : Screen("helper")
+    object OathswornHelper : Screen("helper/oathsworn")
     object NewSession : Screen("new_session/{gameType}") {
         fun route(gameType: String) = "new_session/$gameType"
     }
@@ -41,19 +47,23 @@ private data class BottomNavItem(val screen: Screen, val label: String, val icon
 private val bottomNavItems = listOf(
     BottomNavItem(Screen.Home, "Home", Icons.Default.Home),
     BottomNavItem(Screen.History, "History", Icons.Default.History),
-    BottomNavItem(Screen.Stats, "Stats", Icons.Default.BarChart)
+    BottomNavItem(Screen.Stats, "Stats", Icons.Default.BarChart),
+    BottomNavItem(Screen.Helper, "Helper", Icons.Default.Build)
 )
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
     repository: SessionRepository,
-    prefs: LastSessionPrefs
+    prefs: LastSessionPrefs,
+    oathswornPrefs: OathswornPrefs
 ) {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStack?.destination?.route
 
-    val showBottomBar = currentRoute in listOf(Screen.Home.route, Screen.History.route, Screen.Stats.route)
+    val showBottomBar = currentRoute in listOf(
+        Screen.Home.route, Screen.History.route, Screen.Stats.route, Screen.Helper.route
+    )
 
     Scaffold(
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
@@ -91,6 +101,12 @@ fun AppNavigation(
             }
             composable(Screen.Stats.route) {
                 StatsScreen(repository = repository)
+            }
+            composable(Screen.Helper.route) {
+                HelperScreen(navController = navController)
+            }
+            composable(Screen.OathswornHelper.route) {
+                OathswornHelperScreen(navController = navController, prefs = oathswornPrefs)
             }
             composable(
                 route = Screen.NewSession.route,

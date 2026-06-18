@@ -57,11 +57,13 @@ object GameType {
     const val VOIDFALL = "VOIDFALL"
     const val FINAL_GIRL = "FINAL_GIRL"
     const val SPIRIT_ISLAND = "SPIRIT_ISLAND"
+    const val OATHSWORN = "OATHSWORN"
 
     fun displayName(gameType: String) = when (gameType) {
         VOIDFALL -> "Voidfall"
         FINAL_GIRL -> "Final Girl"
         SPIRIT_ISLAND -> "Spirit Island"
+        OATHSWORN -> "Oathsworn"
         else -> gameType
     }
 }

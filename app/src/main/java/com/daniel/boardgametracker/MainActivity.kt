@@ -21,7 +21,8 @@ class MainActivity : ComponentActivity() {
                     AppNavigation(
                         navController = navController,
                         repository = app.repository,
-                        prefs = app.prefs
+                        prefs = app.prefs,
+                        oathswornPrefs = app.oathswornPrefs
                     )
                 }
             }
